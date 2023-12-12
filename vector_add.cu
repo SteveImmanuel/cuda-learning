@@ -42,7 +42,9 @@ int main() {
     cudaMemcpy(d_b, h_b, bytes, cudaMemcpyHostToDevice);
 
     dim3 NUM_THREADS(256);
-    dim3 NUM_BLOCKS((int)ceil(n / NUM_THREADS.x));
+    dim3 NUM_BLOCKS((int)ceil((float) length / NUM_THREADS.x));
+    printf("Total blocks: %d x %d x %d\n", NUM_BLOCKS.x, NUM_BLOCKS.y, NUM_BLOCKS.z);
+    printf("Total threads each block: %d x %d x %d\n", NUM_THREADS.x, NUM_THREADS.y, NUM_THREADS.z);
 
     vectorAdd<<<NUM_BLOCKS, NUM_THREADS>>>(d_a, d_b, d_c, n);
     cudaError err = cudaGetLastError();
